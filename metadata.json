@@ -1,0 +1,5 @@
+{
+  "name": "麵廠訂單管理系統 (Noodle Factory Order Management)",
+  "description": "一個為麵條工廠設計的數位化訂單管理系統，整合 Google Sheets 作為後端資料庫，提供公休日判斷、訂單預覽與生產匯總功能。",
+  "requestFramePermissions": []
+}
