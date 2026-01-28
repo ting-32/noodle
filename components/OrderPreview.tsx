@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Order } from '../types';
-import { Trash2, Calendar, Store as StoreIcon, Package, Clock, Hash, ChevronRight } from 'lucide-react';
+import { Trash2, Calendar, Store as StoreIcon, Package, Clock, Hash, ClipboardList } from 'lucide-react';
 
 interface OrderPreviewProps {
   orders: Order[];
@@ -9,7 +8,6 @@ interface OrderPreviewProps {
 }
 
 const OrderPreview: React.FC<OrderPreviewProps> = ({ orders, onDeleteOrder }) => {
-  // Sort orders by date, then by delivery time
   const sortedOrders = [...orders].sort((a, b) => {
     const dateCompare = new Date(a.date).getTime() - new Date(b.date).getTime();
     if (dateCompare !== 0) return dateCompare;
@@ -52,7 +50,6 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orders, onDeleteOrder }) =>
         </div>
       </div>
 
-      {/* 手機版：卡片清單模式 */}
       <div className="md:hidden divide-y divide-slate-100">
         {sortedOrders.length === 0 ? (
           <div className="px-8 py-16 text-center text-slate-400 font-medium italic">
@@ -108,7 +105,6 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orders, onDeleteOrder }) =>
         )}
       </div>
 
-      {/* 電腦版：傳統表格模式 */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -186,5 +182,4 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orders, onDeleteOrder }) =>
   );
 };
 
-import { ClipboardList } from 'lucide-react';
 export default OrderPreview;
