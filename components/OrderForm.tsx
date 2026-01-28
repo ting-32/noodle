@@ -18,7 +18,6 @@ import {
   RotateCcw,
   Eraser,
   AlertTriangle,
-  X,
   Loader2
 } from 'lucide-react';
 
