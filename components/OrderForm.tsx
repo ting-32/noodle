@@ -1,4 +1,3 @@
-
 import React, { useState, useId, useMemo, useRef, useEffect } from 'react';
 import { Store, Product, Order } from '../types';
 import { 
@@ -19,7 +18,8 @@ import {
   RotateCcw,
   Eraser,
   AlertTriangle,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 
 interface OrderItemRow {
@@ -30,7 +30,7 @@ interface OrderItemRow {
 interface OrderFormProps {
   stores: Store[];
   products: Product[];
-  existingOrders: Order[]; // 新增：傳入現有訂單進行比對
+  existingOrders: Order[];
   onAddOrder: (order: Order) => void;
 }
 
@@ -62,7 +62,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   
-  // 重複檢查專用狀態
   const [duplicateWarning, setDuplicateWarning] = useState<{
     rows: Order[];
   } | null>(null);
@@ -196,7 +195,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
       return;
     }
 
-    // 核心：重複檢測邏輯
     const duplicates: Order[] = [];
     validRows.forEach(row => {
       const isDup = existingOrders.some(o => 
@@ -217,7 +215,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
     });
 
     if (duplicates.length > 0) {
-      // 發現重複，彈窗警告
       setDuplicateWarning({ rows: duplicates });
       return;
     }
@@ -257,7 +254,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
 
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-visible transition-all">
-      {/* 重複確認 Modal */}
       {duplicateWarning && (
         <div className="fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white w-full max-w-sm rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95">
@@ -329,7 +325,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
 
       <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 md:space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* 日期選擇 */}
           <div className="space-y-1.5 relative" ref={calendarRef}>
             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">配送日期</label>
             <button
@@ -373,7 +368,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
             )}
           </div>
 
-          {/* 店家選擇 */}
           <div className="space-y-1.5">
             <label htmlFor={storeSelectId} className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 cursor-pointer">配送店家</label>
             <div className="relative">
@@ -393,7 +387,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
             </div>
           </div>
 
-          {/* 時間輸入 */}
           <div className="space-y-1.5">
             <label htmlFor={timeInputId} className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 cursor-pointer">配送時間</label>
             <div className="relative">
@@ -409,7 +402,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
           </div>
         </div>
 
-        {/* 品項清單 */}
         <div className="space-y-4 pt-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xs md:text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
@@ -506,5 +498,4 @@ const OrderForm: React.FC<OrderFormProps> = ({ stores, products, existingOrders,
   );
 };
 
-import { Loader2 } from 'lucide-react';
 export default OrderForm;
